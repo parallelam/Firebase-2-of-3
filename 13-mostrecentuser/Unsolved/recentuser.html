@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en-us">
-
 <head>
-
   <meta charset="UTF-8">
   <title>Sign-Up Today!</title>
-
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
     crossorigin="anonymous">
-
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <!-- Firebase Reference -->
+  <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
 </head>
-
 <body>
-
   <div class="container">
-
     <br>
-
     <!-- Jumbotron -->
     <div class="jumbotron">
       <h1 class="text-center">Sign-Up Today!</h1>
     </div>
     <div class="row">
-
       <!-- Sign-Up Card-->
       <div class="col-lg-6">
         <div class="card">
@@ -31,7 +26,6 @@
             New Member Sign-Up
           </div>
           <div class="card-body">
-
             <!-- Sign-up Form (note the various input "types")-->
             <form role="form">
               <div class="form-group">
@@ -55,7 +49,6 @@
           </div>
         </div>
       </div>
-
       <!-- Most Recent Member Card -->
       <div class="col-lg-6">
         <div class="card">
@@ -74,44 +67,50 @@
     </div>
 
   </div>
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery.js"></script>
-
-  <!-- LINK TO FIREBASE GOES HERE -->
-  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-
+  
   <!-- Script -->
   <script>
+    var config = {
+    apiKey: "AIzaSyB5wr1lNrGL6dbJBV-aLnKC6qf0CHYna94",
+    authDomain: "multiple-values-49245.firebaseapp.com",
+    databaseURL: "https://multiple-values-49245.firebaseio.com",
+    projectId: "multiple-values-49245",
+    storageBucket: "multiple-values-49245.appspot.com",
+    messagingSenderId: "446493445677"};
     //  START CODING BELOW!!
-
     // Initialize Firebase
-
-
+    firebase.initializeApp(config);
     // Create a variable to reference the database
-
-
+    var database = firebase.database();
+    database.ref().on("value", function(snapshot) {
+    $("#recent-member").text(snapshot.val().name);
+    $('#name-display').text(snapshot.val().name);
+    $('#email-display').text(snapshot.val().email);
+    $('#age-display').text(snapshot.val().age);
+    $('#comment-display').text(snapshot.val().comment);
+    });
     // Capture Button Click
     $("#add-user").on("click", function(event) {
       // Don't refresh the page!
       event.preventDefault();
-
+      var name = $("#name-input").val().trim();
+      var email = $("#email-input").val().trim();
+      var age = $("#age-input").val().trim();
+      var comment = $("#comment-input").val().trim();
+      var member = {
+        name:name,
+        email:email,
+        age:age,
+        comment:comment
+      };
+      database.ref().set(member);
       // YOUR TASK!!!
-
       // Code in the logic for storing and retrieving the most recent user.
-
       // Don't forget to provide initial data to your Firebase database.
-
     });
-
-
     // Firebase watcher + initial loader HINT: .on("value")
 
-
     // Create Error Handling
-
   </script>
-
 </body>
-
 </html>
